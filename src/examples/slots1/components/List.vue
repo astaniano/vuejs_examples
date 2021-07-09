@@ -1,12 +1,13 @@
 <template>
   <div>
-    <input placeholder="filter..." v-model="filter" />
     <hr />
+    <input placeholder="filter..." v-model="filter" />
     <ul>
       <li v-for="item in filteredItems" :key="item.id">
         <component :is="itemComponent" :item="item" />
       </li>
     </ul>
+    <hr />
   </div>
 </template>
 

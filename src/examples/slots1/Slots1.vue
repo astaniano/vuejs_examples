@@ -1,14 +1,22 @@
 <template>
-  <List
+  <div>
+    <List
     :items="users"
     :fields="['username', 'name']"
     :itemComponent="$options.listItemComponents.User"
   />
+  <List
+    :items="todos"
+    :fields="['title']"
+    :itemComponent="$options.listItemComponents.Todo"
+  />
+  </div>
 </template>
 
 <script>
 import List from "./components/List.vue";
 import User from "./components/User.vue";
+import Todo from "./components/Todo.vue";
 
 import { loadUsers, loadTodos } from "./api.js";
 export default {
@@ -18,6 +26,7 @@ export default {
   },
   listItemComponents: {
     User,
+    Todo,
   },
   data() {
     return { users: [], todos: [] };
