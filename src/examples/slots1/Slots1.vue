@@ -1,24 +1,34 @@
 <template>
-	<UserList :users="users" />
+  <List
+    :items="users"
+    :fields="['username', 'name']"
+    :itemComponent="$options.listItemComponents.User"
+  />
 </template>
 
 <script>
-import UserList from "./components/UserList.vue";
+import List from "./components/List.vue";
+import User from "./components/User.vue";
 
-import { loadUsers } from "./api.js";
+import { loadUsers, loadTodos } from "./api.js";
 export default {
-	name: "Slots1",
-	components: {
-		UserList,
-	},
-	data() {
-		return { users: [] };
-	},
-
-	mounted() {
-		loadUsers().then((users) => {
-			this.users = users;
-		});
-	},
+  name: "Slots1",
+  components: {
+    List,
+  },
+  listItemComponents: {
+    User,
+  },
+  data() {
+    return { users: [], todos: [] };
+  },
+  mounted() {
+    loadUsers().then((users) => {
+      this.users = users;
+    });
+    loadTodos().then((todos) => {
+      this.todos = todos;
+    });
+  },
 };
 </script>
