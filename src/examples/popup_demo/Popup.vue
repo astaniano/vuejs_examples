@@ -7,9 +7,9 @@
       <hr />
       <div class="footer">
         <slot name="actions" :confirm="confirm">
-          <button @click="close">Отмена</button>
+          <button @click="close">cancel</button>
           &nbsp;
-          <button @click="confirm">Ok</button>
+          <button @click="confirm">okeyy</button>
         </slot>
       </div>
     </div>
@@ -18,15 +18,12 @@
 
 <script>
 export default {
-  props: {
-    isOpen: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  emits: {
-    ok: null,
-    close: null,
+  popupController: null,
+
+  data() {
+    return {
+      isOpen: false,
+    };
   },
   mounted() {
     document.addEventListener("keydown", this.handleKeydown);
@@ -35,16 +32,31 @@ export default {
     document.removeEventListener("keydown", this.handleKeydown);
   },
   methods: {
+    open() {
+      let resolve;
+      let reject;
+      const popUpPromise = new Promise((ok, fail) => {
+        resolve = ok;
+        reject = fail;
+      });
+
+      this.$options.popupController = { resolve, reject };
+      this.isOpen = true;
+      return popUpPromise;
+    },
+
     handleKeydown(e) {
       if (this.isOpen && e.key === "Escape") {
         this.close();
       }
     },
     close() {
-      this.$emit("close");
+      this.$options.popupController.resolve(false);
+      this.isOpen = false;
     },
     confirm() {
-      this.$emit("ok");
+      this.$options.popupController.resolve(true);
+      this.isOpen = false;
     },
   },
 };
@@ -55,7 +67,7 @@ export default {
   top: 50px;
   padding: 20px;
   left: 50%;
-  /* transform: translateX(-50%); */
+  transform: translateX(-50%);
   position: fixed;
   z-index: 101;
   background-color: white;

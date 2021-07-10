@@ -1,11 +1,7 @@
 <template>
   <div>
-    <button @click="openPopup">Открыть окно</button>
-    <Popup
-      :is-open="isPopupOpen"
-      @ok="popupConfirmed"
-      @close="isPopupOpen = false"
-    >
+    <button @click="managePopup">Открыть окно</button>
+    <Popup ref="confirmationPopup">
       Вы действительно хотите освоить правильные подходы к проектированию систем
       во Vue?
       <template #actions="{ confirm }">
@@ -26,7 +22,7 @@ import Popup from "./Popup.vue";
 export default {
   components: { Popup },
   data() {
-    return { isPopupOpen: false, confirmation: "" };
+    return { confirmation: "" };
   },
 
   CONFIRMATION_TEXT: "confirm",
@@ -38,13 +34,13 @@ export default {
   },
 
   methods: {
-    openPopup() {
-      this.confirmation = "";
-      this.isPopupOpen = true;
-    },
-
-    popupConfirmed() {
-      this.isPopupOpen = false;
+    async managePopup() {
+        this.confirmation = "";
+        
+        const confirmed = await this.$refs.confirmationPopup.open();
+        if (confirmed) {
+            alert("confirmed");
+        }
     },
   },
 };
