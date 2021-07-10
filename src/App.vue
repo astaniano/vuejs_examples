@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <TrialModal />
+    <PopupDemo />
   </div>
 </template>
 
 <script>
 // import Slots1 from './examples/slots1/Slots1.vue'
-import TrialModal from './examples/trial_modal/TrialModal.vue'
+// import TrialModal from './examples/trial_modal/TrialModal.vue'
+import PopupDemo from './examples/popup_demo/PopupDemo.vue'
 
 export default {
   name: 'App',
   components: {
-    // Slots1
-    TrialModal
+    PopupDemo
   }
 }
 </script>

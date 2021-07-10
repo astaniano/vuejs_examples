@@ -17,6 +17,8 @@ export default {
   mounted() {},
   beforeDestroy() {
     this.$emit("close");
+
+    
   },
   methods: {},
   watch: {},
