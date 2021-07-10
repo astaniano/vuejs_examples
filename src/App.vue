@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <Slots1 />
+    <TrialModal />
   </div>
 </template>
 
 <script>
-import Slots1 from './examples/slots1/Slots1.vue'
+// import Slots1 from './examples/slots1/Slots1.vue'
+import TrialModal from './examples/trial_modal/TrialModal.vue'
 
 export default {
   name: 'App',
   components: {
-    Slots1
+    // Slots1
+    TrialModal
   }
 }
 </script>
