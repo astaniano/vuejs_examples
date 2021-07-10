@@ -8,6 +8,15 @@
     >
       Вы действительно хотите освоить правильные подходы к проектированию систем
       во Vue?
+      <template #actions="{ confirm }">
+        Напишите
+        <input
+          :placeholder="$options.CONFIRMATION_TEXT"
+          v-model="confirmation"
+        />
+        &nbsp;
+        <button @click="confirm" :disabled="!isConfirmationCorrect">OK</button>
+      </template>
     </Popup>
   </div>
 </template>
@@ -17,10 +26,16 @@ import Popup from "./Popup.vue";
 export default {
   components: { Popup },
   data() {
-    return { isPopupOpen: false };
+    return { isPopupOpen: false, confirmation: "" };
   },
 
-  computed: {},
+  CONFIRMATION_TEXT: "confirm",
+
+  computed: {
+    isConfirmationCorrect() {
+      return this.confirmation === this.$options.CONFIRMATION_TEXT;
+    },
+  },
 
   methods: {
     openPopup() {
@@ -29,8 +44,7 @@ export default {
     },
 
     popupConfirmed() {
-      alert("Confirmed!");
-      //   this.isPopupOpen = false;
+      this.isPopupOpen = false;
     },
   },
 };

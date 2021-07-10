@@ -1,15 +1,15 @@
 <template>
-  <div v-if="isOpen" class="backdrop">
-    <div class="popup">
+  <div v-if="isOpen" class="backdrop" @click="close">
+    <div class="popup" @click.stop>
       <h1>Внимание!</h1>
       <hr />
       <slot></slot>
       <hr />
       <div class="footer">
-        <slot name="actions" :close="close">
-          <button>Отмена</button>
+        <slot name="actions" :confirm="confirm">
+          <button @click="close">Отмена</button>
           &nbsp;
-          <button>Ok</button>
+          <button @click="confirm">Ok</button>
         </slot>
       </div>
     </div>
@@ -24,15 +24,27 @@ export default {
       required: true,
     },
   },
+  emits: {
+    ok: null,
+    close: null,
+  },
+  mounted() {
+    document.addEventListener("keydown", this.handleKeydown);
+  },
+  beforeDestroy() {
+    document.removeEventListener("keydown", this.handleKeydown);
+  },
   methods: {
-    // handleKeydown(e) {
-    //   if (this.isOpen && e.key === "Escape") {
-    //     this.close();
-    //   }
-    // },
-
+    handleKeydown(e) {
+      if (this.isOpen && e.key === "Escape") {
+        this.close();
+      }
+    },
     close() {
       this.$emit("close");
+    },
+    confirm() {
+      this.$emit("ok");
     },
   },
 };
@@ -43,7 +55,7 @@ export default {
   top: 50px;
   padding: 20px;
   left: 50%;
-  transform: translateX(-50%);
+  /* transform: translateX(-50%); */
   position: fixed;
   z-index: 101;
   background-color: white;
