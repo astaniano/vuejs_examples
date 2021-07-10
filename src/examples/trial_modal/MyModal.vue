@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isOpen">
-    <div>heading of the moal will be here</div>
+  <div>
+    <div>heading of the modal will be here</div>
     <slot name="center">default content for center slot</slot>
     <slot name="bottom">default content for bottom slot</slot>
   </div>
@@ -9,19 +9,16 @@
 <script>
 export default {
   name: "MyModal",
-  props: {
-    isOpen: { type: Boolean, required: true },
-    isOkClicked: { type: Boolean, required: true },
-  },
+  props: {},
   components: {},
   data() {
     return {};
   },
   mounted() {},
-  methods: {
-    afterOkBtnClick() {
-      console.log("yes!!!")
-    },
+  beforeDestroy() {
+    this.$emit("close");
   },
+  methods: {},
+  watch: {},
 };
 </script>

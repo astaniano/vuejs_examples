@@ -4,19 +4,21 @@
       ddddddddddddddddd before
       <button @click="openModal">open modal</button>
     </div>
-    <MyModal :isOpen="isModalOpen" :isOkClicked="isOkBtnClicked">
-      <template #center>
-        center content JOOOOOO
-      </template>
-      <template #bottom>
-        <input
-          type="text"
-          v-model="modalCloseWord"
-          @keyup="isModalReadyToClose"
-        />
-        <button @click="closeModal" :disabled="isOkBtnDisabled">okey</button>
-      </template>
-    </MyModal>
+    <div v-if="isModalOpen">
+      <MyModal @close="onModalClosed">
+        <template #center>
+          center content JOOOOOO
+        </template>
+        <template #bottom>
+          <input
+            type="text"
+            v-model="modalCloseWord"
+            @keyup="isModalReadyToClose"
+          />
+          <button @click="closeModal" :disabled="isOkBtnDisabled">okey</button>
+        </template>
+      </MyModal>
+    </div>
     <div>
       dddddddddddddd after
     </div>
@@ -50,11 +52,14 @@ export default {
       this.isOkBtnDisabled = true;
     },
     isModalReadyToClose() {
-      if (this.modalCloseWord.toLowerCase() === "bro") {
+      if (this.modalCloseWord.toLowerCase() === "bb") {
         this.isOkBtnDisabled = false;
       } else {
         this.isOkBtnDisabled = true;
       }
+    },
+    onModalClosed() {
+      console.log("modal was closed");
     },
   },
 };
